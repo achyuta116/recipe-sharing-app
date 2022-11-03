@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
+import { URLSearchParams } from 'url'
 
 
 const Sidebar = () => {
 		const [cuisine, setCuisine] = useState('')
 		const [course, setCourse] = useState('')
-		const [minPrep, setMinPrep] = useState<string | number | undefined>()
-		const [maxPrep, setMaxPrep] = useState<string | number | undefined>()
-		const [minCook, setMinCook] = useState<string | number | undefined>()
-		const [maxCook, setMaxCook] = useState<string | number | undefined>()
+		const [minPrep, setMinPrep] = useState<'' | number | undefined>()
+		const [maxPrep, setMaxPrep] = useState<'' | number | undefined>()
+		const [minCook, setMinCook] = useState<'' | number | undefined>()
+		const [maxCook, setMaxCook] = useState<'' | number | undefined>()
 
 
 		const cuisines = ['Indian', 'Italian']
@@ -43,6 +44,34 @@ const Sidebar = () => {
 		const removeIngredientFilter = (ingredient: string) => {
 				setSelected(selected.filter(el => el != ingredient))
 				setIngredients(ingredients.concat([ingredient]))
+		}
+
+		const getIngredients = (e:React.MouseEventHandler<HTMLFormElement>) => {
+				let filter: {
+						cuisine?: string,
+						course?: string,
+						ingredients?: string[],
+						minCook?: string,
+						maxCook?: string,
+						minPrep?: string,
+						maxPrep?: string
+				}  = {}
+				if (cuisine) filter.cuisine = cuisine
+				if (course) filter.course = course
+				if (maxCook) filter.maxCook = maxCook.toString()
+				if (minCook) filter.minCook = minCook.toString()
+				if (minPrep) filter.minPrep = minPrep.toString()
+				if (maxPrep) filter.maxPrep = maxPrep.toString()
+
+				const query = new URLSearchParams(filter)
+
+				fetch('/api/recipe/recipes' + query)
+						.then(res => {
+								
+						}).catch(err => {
+
+						})
+
 		}
 
 		return (
@@ -82,7 +111,7 @@ const Sidebar = () => {
 										<div className='inline mx-1 text-xl'>-</div>
 										<input value={maxPrep} placeholder='(in min)' className='inline w-24 rounded-full m-1 bg-gray-200 border-none' onChange={e => setMaxPrep(Number(e.target.value))} type="number" min="10" max="500"/>
 								</div>
-								<input className='w-full rounded-lg mx-auto mt-3 text-lg bg-yellow-400 font-semibold p-2' type="submit" onSubmit={() => {}}/>
+								<input className='w-full rounded-lg mx-auto mt-3 text-lg bg-yellow-400 font-semibold p-2' type="submit" onClick={getIngredients}/>
 								<input className='w-full rounded-lg mx-auto my-1 text-lg bg-yellow-400 font-semibold p-2' type="reset" onClick={clearFilter}/>
 						</form>
 
