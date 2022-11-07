@@ -25,20 +25,49 @@ router.get('/recipes', async (req, res) => {
 				if (query.maxPrep) where.push(`minPrep>=${query.maxPrep}`)
 
 				if (query.ingredients) {
-						const list = query.ingredients.join(',')
 						where.push(
-`(uid, rname) in (SELECT DISTINCT uid, rname FROM RECIPE_USES_INGREDIENT WHERE iname IN (${list}))`)
+						`(uid, rname) in (SELECT DISTINCT uid, rname FROM RECIPE_USES_INGREDIENT WHERE iname IN (${query.ingredients}))`)
 				}
 
 				const whereString = where.join(' AND ')
 				console.log(whereString)
 
 
-				const query = 'SELECT * FROM RECIPES ' + where? ('WHERE ' + where) : ''
+				const sqlQuery = 'SELECT * FROM RECIPES ' + where? ('WHERE ' + where) : ''
 
-				const { rows } = await pool.query(query)
+				const { rows } = await pool.query(sqlQuery)
 				res.status(200).json({ recipes: rows })
 		} catch (error) {
 				res.status(400).json({ error: error.message })
 		}
+})
+
+router.get('/recipe/:user/:rname', async (req, res) => {
+	const { user, rname } = req.params
+	try {
+		const sqlQuery = `SELECT DISTINCT * FROM RECIPE WHERE uid=${user} AND rname=${rname}`
+		const { rows } = await pool.query(sqlQuery)
+		res.status(200).json({ recipe: rows[0] })
+	} catch (error) {
+		res.status(400).json({ error: error.message })
+	}
+})
+
+router.delete('/recipe', async (req, res) => {
+	const { user, rname } = req.body
+	try {
+		const sqlQuery = `DELETE FROM RECIPE WHERE uid=${user} AND rname=${rname}`
+		const { rows } = await pool.query(sqlQuery)
+		res.status(200)
+	} catch (error) {
+		
+	}
+})
+
+router.post('/create', async (req, res) => {
+	
+})
+
+router.put('/update', async (req, res) => {
+	
 })
