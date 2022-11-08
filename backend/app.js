@@ -10,5 +10,5 @@ app.use('/api/auth', authRoutes)
 app.use('/api/recipe', recipeRoutes)
 
 app.listen(8000, () => {
-		console.log("Express server started")
+    console.log("Express server started")
 })

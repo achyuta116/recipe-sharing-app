@@ -2,48 +2,48 @@ import { createContext, useReducer, useEffect } from 'react'
 
 
 type AuthContextType = {
-		dispatch: React.Dispatch<{
-				type: string;
-				payload?: string;
-		}>
+    dispatch: React.Dispatch<{
+        type: string;
+        payload?: string;
+    }>
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const authReducer = (state: any, action: {type: string, payload: string}) => {
-		switch (action.type) {
-				case 'LOGIN':
-						return { user: action.payload }
-				case 'LOGOUT':
-						return { user: null }
-				default:
-				return state
-		}
+    switch (action.type) {
+        case 'LOGIN':
+            return { user: action.payload }
+        case 'LOGOUT':
+            return { user: null }
+        default:
+        return state
+    }
 }
 
 interface Props {
-		children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined
+    children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined
 }
 
 export const AuthContextProvider = ({ children }: Props) => {
-		const [state, dispatch] = useReducer(authReducer, { 
-				user: null
-		})
+    const [state, dispatch] = useReducer(authReducer, { 
+        user: null
+    })
 
-		useEffect(() => {
-				const user = JSON.parse(localStorage.getItem('user')!)
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user')!)
 
-				if (user) {
-						dispatch({ type: 'LOGIN', payload: user }) 
-				}
-		}, [])
+        if (user) {
+        dispatch({ type: 'LOGIN', payload: user }) 
+        }
+    }, [])
 
-		console.log('AuthContext state:', state)
+    console.log('AuthContext state:', state)
 
-		return (
-				<AuthContext.Provider value={{ ...state, dispatch }}>
-						{ children }
-				</AuthContext.Provider>
-		)
+    return (
+        <AuthContext.Provider value={{ ...state, dispatch }}>
+            { children }
+        </AuthContext.Provider>
+    )
 
 }

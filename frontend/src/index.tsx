@@ -7,14 +7,14 @@ import { RecipesContextProvider } from './contexts/RecipesContext';
 
 
 const root = ReactDOM.createRoot(
-		document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-		<React.StrictMode>
-				<AuthContextProvider>
-					<RecipesContextProvider>
-						<App />
-					</RecipesContextProvider>
-				</AuthContextProvider>
-		</React.StrictMode>
+    <React.StrictMode>
+        <AuthContextProvider>
+            <RecipesContextProvider>
+                <App />
+            </RecipesContextProvider>
+        </AuthContextProvider>
+    </React.StrictMode>
 );

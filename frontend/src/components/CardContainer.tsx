@@ -3,14 +3,14 @@ import { useRecipesContext } from '../hooks/useRecipesContext'
 import Card from './Card'
 
 const CardContainer = () => {
-		const { recipes } = useRecipesContext()
-		
+    const { recipes } = useRecipesContext()
 
-		return (
-				<div className='grid grid-cols-3'>
 
-				</div>
-		)
+    return (
+        <div className='grid grid-cols-3'>
+
+        </div>
+    )
 }
 
 export default CardContainer
