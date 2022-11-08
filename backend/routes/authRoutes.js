@@ -7,8 +7,9 @@ const slugify = require('slugify')
 
 const pool = new Pool()
 
+const maxAge = 3 * 24 * 60 * 60;
 const createToken = (slug) => {
-		return jwt.sign({_id: slug}, process.env.SECRET, {expiresIn: '3d'})
+		return jwt.sign({_id: slug}, process.env.SECRET, {expiresIn: maxAge})
 }
 
 router.post('/login', async (req, res) => {
@@ -27,6 +28,7 @@ router.post('/login', async (req, res) => {
 				const user = rows[0]
 				if (user.pwd != password) throw Error("Invalid Password")
 				const token = createToken(user.slug)
+				res.cookie('jwt', token, { maxAge })
 				res.status(200).json({ username, token })
 		} catch (error) {
 				res.status(400).json({error: error.message})	
@@ -50,10 +52,16 @@ router.post('/signup', async (req, res) => {
 				const user = await pool.query( 'INSERT INTO USERS(uname, pwd, slug) VALUES($1,$2,$3,$4) RETURNING *', values) 
 				if (!user) throw Error("Something went wrong during signup")
 				const token = createToken(user.slug)
+				res.cookie('jwt', token, { maxAge })
 				res.status(200).json({ username, token })
 		} catch (error) {
 				res.status(400).json({ error: error.message })
 		}
+})
+
+router.get('/logout', async (req, res) => {
+	res.cookie('jwt', '', {maxAge: 1})
+	res.status(200).json({})
 })
 
 module.exports = router 

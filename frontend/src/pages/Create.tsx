@@ -43,6 +43,18 @@ const Create = () => {
 
 	const createRecipe = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.preventDefault()
+
+		const recipe = {
+			rname, cuisine, course, cookTime, prepTime, imageUrl, ingredients, instructions
+		}
+
+		fetch('/api/recipes/recipe', {
+			method: 'POST',
+			body: JSON.stringify(recipe),
+			headers: new Headers({
+				'content-type':'application/json'
+			})
+		})
 	}
 
 	return (

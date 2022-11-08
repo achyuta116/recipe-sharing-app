@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import SideNav from '../components/SideNav'
 
 const Update = () => {
-	const [rname, setRname] = useState('')
 	const [cuisine, setCuisine] = useState('')
 	const [course, setCourse] = useState('')
 	const [cookTime, setCookTime] = useState('')
@@ -43,6 +42,17 @@ const Update = () => {
 
 	const updateRecipe = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.preventDefault()
+		const recipe = {
+			cuisine, course, cookTime, prepTime, imageUrl, ingredients, instructions
+		}
+
+		fetch('/api/recipes/recipe', {
+			method: 'PUT',
+			body: JSON.stringify(recipe),
+			headers: new Headers({
+				'content-type':'application/json'
+			})
+		})
 	}
 
 	return (
@@ -53,8 +63,6 @@ const Update = () => {
 			<div className='col-span-7 bg-gray-50 flex flex-col items-center'>
 				<div className="text-4xl font-bold text-center mt-3 p-1">Create Recipe</div>
 				<form className='w-8/12 max-w-full p-5 border rounded-lg drop-shadow my-auto h-[90vh] overflow-y-scroll bg-white'>
-					<label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Recipe Name</label>
-					<input className='block rounded-lg w-full focus:ring-0' type="text" value={rname} onChange={e => setRname(e.target.value)} placeholder='Idli, Vada'/>
 					<div className='flex space-x-2'>
 						<div className='flex-1'>
 							<label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="course">Course</label>
