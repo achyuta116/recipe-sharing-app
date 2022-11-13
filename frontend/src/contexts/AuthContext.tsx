@@ -4,7 +4,10 @@ import { createContext, useReducer, useEffect } from 'react'
 type AuthContextType = {
     dispatch: React.Dispatch<{
         type: string;
-        payload?: string;
+        payload?: {
+            username: string,
+            token: string
+        } | null;
     }>
 }
 
@@ -31,7 +34,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     })
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user')!)
+        const user = JSON.parse(localStorage.getItem('user') || '{}')
 
         if (user) {
         dispatch({ type: 'LOGIN', payload: user }) 
