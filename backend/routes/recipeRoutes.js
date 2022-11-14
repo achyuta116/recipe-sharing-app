@@ -10,7 +10,7 @@ const pool = new Pool()
 router.get('/ingredients', async (_req, res) => {
     try {
         const { rows: ingredients } = await pool.query('SELECT * FROM INGREDIENT')
-        res.status(200).json({ ingredients })
+        res.status(200).json({ ingredients: ingredients.map(el => el.iname) })
     } catch (error) {
         res.status(400).json({error: error.messsage})	
     }
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 
         const whereString = where.join(' AND ')
 
-        const sqlQuery = 'SELECT * FROM RECIPE ' + (whereString ? ('WHERE ' + whereString) : '')
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, imageUrl, rname, date FROM RECIPE JOIN USERS ON uid=slug ' + (whereString ? ('WHERE ' + whereString) : '')
         const { rows } = await pool.query(sqlQuery)
         res.status(200).json({ recipes: rows })
     } catch (error) {
@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
 
 router.get('/recipe', async (req, res) => {
     try {
-        const sqlQuery = 'SELECT * FROM RECIPE'
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, imageUrl, rname, date FROM RECIPE JOIN USERS ON uid=slug'
         const { rows } = await pool.query(sqlQuery)
         res.status(200).json({ rows })
     } catch (error) {

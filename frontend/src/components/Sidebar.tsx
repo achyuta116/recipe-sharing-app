@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Sidebar = () => {
     const [cuisine, setCuisine] = useState('')
@@ -9,8 +9,9 @@ const Sidebar = () => {
     const [maxCook, setMaxCook] = useState<'' | number | undefined>()
 
 
-    const cuisines = ['Indian', 'Italian']
-    const courses = ['Breakfast', 'Lunch', 'Snacks', 'Dinner']
+    const cuisines = ['Indian', 'Italian', 'American', 'Japanese',
+    'Chinese', 'French']
+    const courses = ['Breakfast', 'Lunch', 'Snacks', 'Dinner', 'Appetizer', 'Desserts']
 
     const clearFilter = () => {
         setCuisine('')
@@ -31,6 +32,15 @@ const Sidebar = () => {
 
     const [selected, setSelected] = useState<string[]>([])
     const [ingredientSelected, setIngredientSelected] = useState<string>('')
+
+    useEffect(() => {
+        fetch('/api/recipe/ingredients')
+            .then(res => res.json())
+            .then(data => {
+                setIngredients(data.ingredients)
+            })
+    }, [])
+
 
     const addIngredientFilter = (ingredient: string) => {
         if (!ingredient) return
@@ -83,27 +93,24 @@ const Sidebar = () => {
                 <select value={cuisine} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
                     onChange={e => setCuisine(e.target.value)} 
-                    defaultValue={''} 
                     id='cuisine'>
                     <option value=""></option>
-                    {cuisines.map(el => <option value={el}>{el}</option>)}
+                    {cuisines.map(el => <option key={el} value={el}>{el}</option>)}
                 </select>
                 <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="course">Course</label>
                 <select value={course} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
                     onChange={e => setCourse(e.target.value)} 
-                    defaultValue={''} 
                     id='course'>
                     <option value=""></option>
-                    {courses.map(el => <option value={el}>{el}</option>)}
+                    {courses.map(el => <option key={el} value={el}>{el}</option>)}
                 </select>
                 <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Ingredient Filter</label>
                 <select value={ingredientSelected} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
-                    defaultValue={''} 
                     onChange={e => addIngredientFilter(e.target.value)}>
                     <option value=""></option>
-                    {ingredients.map(el => <option value={el}>{el}</option>)}
+                    {ingredients.map(el => <option key={el} value={el}>{el}</option>)}
                 </select>
                 {selected.map(el => 
                     <div key={el} className="m-1 p-2 text-md font-light border rounded-sm flex justify-between select-none">

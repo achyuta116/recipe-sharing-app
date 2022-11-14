@@ -22,9 +22,9 @@ const requireAuth = async (req, res, next) => {
             req.slug = _id
             next()
         }
-        else throw Error()
+        else throw Error('Not authorized')
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         res.status(401).json({error: 'Request is not authorized'})
     }
 }

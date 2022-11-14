@@ -1,12 +1,35 @@
 import React, { useState } from 'react'
+import { useLogin } from '../hooks/useLogin'
+import { useSignup } from '../hooks/useSignup'
 
 const Login = () => {
     const [loginUsername, setloginUsername] = useState('')
     const [loginPwd, setloginPwd] = useState('')
-    const [signupName, setsignupName] = useState('')
     const [signupUsername, setsignupUsername] = useState('')
     const [signupPwd, setsignupPwd] = useState('')
     const [showSignup, setShowSignup] = useState(true)
+    const [error, setError] = useState('')
+
+    const { login, error:loginError } = useLogin()
+    const { signup, error:signupError } = useSignup()
+
+    const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        if (loginUsername && loginPwd) {
+            await login(loginUsername, loginPwd)
+            if (loginError)
+                setError(loginError)
+        }
+    }
+
+    const handleSignup = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        if (signupUsername && signupPwd){
+            await signup(signupUsername, signupPwd)
+            if (signupError)
+                setError(signupError)
+        }
+    }
     
     return (
         <div className="grid place-items-center h-[100vh] w-[100vw] bg-[url('https://images.unsplash.com/photo-1473093226795-af9932fe5856?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2788&q=80')] bg-cover bg-no-repeat">	
@@ -24,10 +47,11 @@ const Login = () => {
                     {!showSignup && 
                         <div className='grid place-items-center flex-1'>
                             <form>
-                                <input type="text" onChange={e => setloginUsername(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Username'/>
-                                <input type="password" onChange={e => setloginPwd(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Password'/>
+                                <input required type="text" onChange={e => setloginUsername(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Username'/>
+                                <input required type="password" onChange={e => setloginPwd(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Password'/>
                                 <div className='grid place-items-center'>
-                                    <div className='mt-6 hover:scale-105 cursor-pointer inline-block py-2 px-4 bg-black text-white font-semibold text-center rounded-full transition ease-out'>Submit</div>
+                                    <button className='mt-6 hover:scale-105 cursor-pointer inline-block py-2 px-4 bg-black text-white font-semibold text-center rounded-full transition ease-out' onClick={handleLogin}>Submit</button>
+                                    <div className="p-1 text-red-600">{error}</div> 
                                 </div>
                             </form>
                         </div>
@@ -35,11 +59,11 @@ const Login = () => {
                     {showSignup && 
                         <div className='grid place-items-center flex-1'>
                             <form>
-                                <input type="text" onChange={e => setsignupName(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Name'/>
-                                <input type="text" onChange={e => setsignupUsername(e.target.value)}className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Username'/>
-                                <input type="password" onChange={e => setsignupPwd(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Password'/>
+                                <input required type="text" onChange={e => setsignupUsername(e.target.value)}className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Username'/>
+                                <input required type="password" onChange={e => setsignupPwd(e.target.value)} className='block placeholder-gray-700 hover:placeholder-black w-full bg-transparent my-1 border-gray-700 border-0 border-b-2 focus:ring-0 focus:border-black' placeholder='Password'/>
                                 <div className='grid place-items-center'>
-                                    <div className='mt-6 hover:scale-105 cursor-pointer inline-block py-2 px-4 bg-black text-white font-semibold text-center rounded-full transition ease-out'>Submit</div>
+                                    <button className='mt-6 hover:scale-105 cursor-pointer inline-block py-2 px-4 bg-black text-white font-semibold text-center rounded-full transition ease-out' onClick={handleSignup}>Submit</button>
+                                    <div className="p-1 text-red-600">{error}</div>
                                 </div>
                             </form>
                         </div>

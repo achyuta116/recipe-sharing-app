@@ -10,7 +10,7 @@ const SideNav = () => {
             <div className="mt-4 flex flex-col items-end w-max space-y-3 ml-auto">
                 <SideNavRow Icon={HomeIcon} title='Recipes'/>
                 <SideNavRow Icon={PlusCircleIcon} title='Create Recipe'/>
-                <SideNavRow Icon={UserCircleIcon} title='Profile' />
+                {/* <SideNavRow Icon={UserCircleIcon} title='Profile' /> */}
             </div>
         </div>
     )

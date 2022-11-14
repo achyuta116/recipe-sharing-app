@@ -8,7 +8,11 @@ type AuthContextType = {
             username: string,
             token: string
         } | null;
-    }>
+    }>,
+    user: {
+        username: string,
+        token: string
+    } | null
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
@@ -18,7 +22,7 @@ export const authReducer = (state: any, action: {type: string, payload: string})
         case 'LOGIN':
             return { user: action.payload }
         case 'LOGOUT':
-            return { user: null }
+            return { user: {} }
         default:
         return state
     }

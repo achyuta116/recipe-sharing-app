@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import SideNav from '../components/SideNav'
 
 const Update = () => {
@@ -56,7 +56,7 @@ const Update = () => {
     }
 
     return (
-        <>
+        <div className='grid grid-cols-10'>
             <div className='col-span-3 border-r px-3'>
                 <SideNav/>
             </div>
@@ -122,7 +122,7 @@ const Update = () => {
                     <div className='font-light text-center text-red-500 text-sm'>{ error }</div>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 

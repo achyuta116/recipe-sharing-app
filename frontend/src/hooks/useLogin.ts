@@ -16,6 +16,7 @@ export const useLogin = () => {
         })
         const data = await res.json()
         if (!res.ok) {
+            console.log(data.error)
             setError(data.error)
         } else {
             localStorage.setItem('user', JSON.stringify(data))
