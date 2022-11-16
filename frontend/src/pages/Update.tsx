@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import SideNav from '../components/SideNav'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const Update = () => {
     const [cuisine, setCuisine] = useState('')
@@ -10,11 +12,33 @@ const Update = () => {
     const [imageUrl, setImageUrl] = useState('')
     const [error, setError ] = useState('')
 
-    const cuisines = ['Indian', 'Italian']
-    const courses = ['Breakfast', 'Lunch', 'Snacks', 'Dinner']
+    const cuisines =['Indian', 'Italian', 'American', 'Japanese',
+        'Chinese', 'French'] 
+    const courses = ['Breakfast', 'Lunch', 'Snacks', 'Dinner', 'Appetizer', 'Desserts'] 
     const [ingredients, setIngredients] = useState(['Tomato','Potato','Onion', 'Brinjal', 'Drumstick'])
     const [selectedIngredients, setSelectedIngredients] = useState<{ingredient:string, amount:number}[]>([])
     const [ingredientSelected, setIngredientSelected] = useState('')
+    const navigate = useNavigate()
+    const { user, rname } = useParams()
+    const { user: u } = useAuthContext()
+
+    useEffect(() => {
+        fetch(`/api/recipe/${encodeURIComponent(user!)}/${encodeURIComponent(rname!)}`)
+            .then(async (res) => {
+                const data = await fetch('/api/recipe/ingredients').then(res => res.json())
+                const { recipe, ingredients: selected } = await res.json()
+                setCourse(recipe.course)
+                setCuisine(recipe.cuisine)
+                console.log(recipe.cuisine)
+                setCookTime(recipe.cook_time)
+                setPrepTime(recipe.prep_time)
+                setImageUrl(recipe.image_url)
+                setInstructions(recipe.instructions)
+                const included = selected.map((el: {iname: string}) => el.iname)
+                setIngredients(data.ingredients.filter((el: string) => !included.includes(el)))
+                setSelectedIngredients(selected.map((el: {iname: string, amount: number}) => ({ingredient: el.iname, amount: el.amount})))
+            })
+    }, [])
 
 
     const addIngredient = (e:React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,16 +67,17 @@ const Update = () => {
     const updateRecipe = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault()
         const recipe = {
-            cuisine, course, cookTime, prepTime, imageUrl, ingredients, instructions
+            cuisine, course, cookTime, prepTime, imageUrl, ingredients:selectedIngredients, instructions, rname
         }
 
-    fetch('/api/recipes/recipe', {
+        fetch('/api/recipe/recipe', {
             method: 'PUT',
             body: JSON.stringify(recipe),
             headers: new Headers({
-                'content-type':'application/json'
+                'content-type':'application/json',
+                'authorization': `Bearer ${u?.token}`
             })
-        })
+        }).then(() => navigate('/'))
     }
 
     return (
@@ -61,7 +86,7 @@ const Update = () => {
                 <SideNav/>
             </div>
             <div className='col-span-7 bg-gray-50 flex flex-col items-center'>
-                <div className="text-4xl font-bold text-center mt-3 p-1">Create Recipe</div>
+                <div className="text-4xl font-bold text-center mt-3 p-1">Update Recipe</div>
                 <form className='w-8/12 max-w-full p-5 border rounded-lg drop-shadow my-auto h-[90vh] overflow-y-scroll bg-white'>
                     <div className='flex space-x-2'>
                         <div className='flex-1'>
@@ -117,8 +142,8 @@ const Update = () => {
                         </div>					
                     </div>
                     <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Instructions</label>
-                    <span className="block resize overflow-hidden min-h-[90px] border border-gray-600 rounded-lg focus:outline-none px-2 py-1" role="textbox" onChange={e => setInstructions(e.currentTarget.textContent!)} contentEditable suppressContentEditableWarning={true}>{instructions}</span>
-                    <div onClick={updateRecipe} className='cursor-pointer p-2 text-center bg-yellow-400 font-bold rounded-full mt-3'>Create Recipe</div>
+                    <textarea className='block w-full' onChange={e => setInstructions(e.target.value)} value={instructions}></textarea>
+                    <div onClick={updateRecipe} className='cursor-pointer p-2 text-center bg-yellow-400 font-bold rounded-full mt-3'>Update Recipe</div>
                     <div className='font-light text-center text-red-500 text-sm'>{ error }</div>
                 </form>
             </div>

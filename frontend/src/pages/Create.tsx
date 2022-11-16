@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import SideNav from '../components/SideNav'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 const Create = () => {
     const { user } = useAuthContext()
+    const navigate = useNavigate()
     
     const [rname, setRname] = useState('')
     const [cuisine, setCuisine] = useState('')
@@ -71,7 +72,7 @@ const Create = () => {
                 'content-type':'application/json',
                 'Authorization': `Bearer ${user?.token}`
             })
-        }).then(() => redirect('/'))
+        }).then(() => navigate('/'))
             .catch(async res => {
                 const { error:errorVal } = await res.json()
                 setError(errorVal)

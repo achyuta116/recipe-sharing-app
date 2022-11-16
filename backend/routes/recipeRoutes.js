@@ -12,6 +12,7 @@ router.get('/ingredients', async (_req, res) => {
         const { rows: ingredients } = await pool.query('SELECT * FROM INGREDIENT')
         res.status(200).json({ ingredients: ingredients.map(el => el.iname) })
     } catch (error) {
+        console.log(error.message)
         res.status(400).json({error: error.messsage})	
     }
 })
@@ -35,20 +36,22 @@ router.get('/', async (req, res) => {
 
         const whereString = where.join(' AND ')
 
-        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, imageUrl, rname, date FROM RECIPE JOIN USERS ON uid=slug ' + (whereString ? ('WHERE ' + whereString) : '')
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname, date FROM RECIPE JOIN USERS ON uid=slug ' + (whereString ? ('WHERE ' + whereString) : '')
         const { rows } = await pool.query(sqlQuery)
         res.status(200).json({ recipes: rows })
     } catch (error) {
+        console.log(error.message)
         res.status(400).json({ error: error.message })
     }
 })
 
 router.get('/recipe', async (req, res) => {
     try {
-        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, imageUrl, rname, date FROM RECIPE JOIN USERS ON uid=slug'
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname, date FROM RECIPE JOIN USERS ON uid=slug'
         const { rows } = await pool.query(sqlQuery)
-        res.status(200).json({ rows })
+        res.status(200).json({ recipes: rows })
     } catch (error) {
+        console.log(error.message)
         res.status(400).json({ error: error.message })
     }
 })
@@ -62,10 +65,15 @@ router.get('/:user/:rname', async (req, res) => {
         })
 
     try {
-        const sqlQuery = `SELECT DISTINCT * FROM RECIPE WHERE uid='${uid}' AND rname='${rname}'`
-        const { rows } = await pool.query(sqlQuery)
-        res.status(200).json({ recipe: rows[0] })
+        let sqlQuery = `SELECT DISTINCT * FROM RECIPE WHERE uid='${uid}' AND rname='${rname}'`
+        const { rows: recipes } = await pool.query(sqlQuery)
+        sqlQuery = 'SELECT DISTINCT * FROM RECIPE_USES_INGREDIENT WHERE rname=$1 AND uid=$2'
+        const { rows: ingredients } = await pool.query(sqlQuery, [rname, uid])
+        sqlQuery = 'SELECT DISTINCT uname FROM USERS WHERE slug=$1'
+        const { rows: users } = await pool.query(sqlQuery, [uid])
+        res.status(200).json({ recipe: recipes[0], ingredients, author: users[0].uname })
     } catch (error) {
+        console.log(error.message)
         res.status(400).json({ error: error.message })
     }
 })
@@ -80,6 +88,7 @@ router.delete('/recipe', async (req, res) => {
         await pool.query(sqlQuery)
         res.sendStatus(200)
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ error: error.message })
     }
 })
@@ -102,22 +111,30 @@ $5, $6, $7, $8, $9) RETURNING *`
         console.log(rows)
         res.status(200).json({ recipe: rows[0] })
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ error: error.message })
     }
 
 })
 
 router.put('/recipe', async (req, res) => {
-    const { rname, cuisine, course, cookTime, prepTime, instructions, imageUrl } = req.body
+    const { rname, cuisine, course, cookTime, prepTime, instructions, imageUrl, ingredients } = req.body
     const uid = req.slug
 
     try {
-        const sqlQuery = `UPDATE RECIPE SET cuisine=$1, image_url=$2, course=$3, cook_time=$4,
+        let sqlQuery = `UPDATE RECIPE SET cuisine=$1, image_url=$2, course=$3, cook_time=$4,
 prep_time=$5, instructions=$6, date=$7 WHERE rname=$8 AND uid=$9 RETURNING *`
         const { rows } = await pool.query(sqlQuery, 
             [cuisine, imageUrl, course, cookTime, prepTime, instructions, (new Date().toISOString().slice(0, 10)), rname, uid])
+        sqlQuery = 'DELETE FROM RECIPE_USES_INGREDIENT WHERE rname=$1'
+        await pool.query(sqlQuery, [rname])
+        ingredients.forEach(async ingredient => {
+            await pool.query(
+                'INSERT INTO RECIPE_USES_INGREDIENT(iname, amount, uid, rname) VALUES($1,$2,$3,$4)', [ingredient.ingredient, ingredient.amount, uid, rname])
+        })
         res.status(200).json({ recipe: rows[0] })
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ error: error.message })
     }
 })

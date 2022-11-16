@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
         const user = rows[0]
         if (user.pwd != password || user.uname != username) throw Error("Invalid Login or Password")
         const token = createToken(user.slug)
-        res.status(200).json({ username: user.slug, token })
+        res.status(200).json({ username: user.uname, token })
     } catch (error) {
         res.status(400).json({error: error.message})	
     }
@@ -50,7 +50,7 @@ router.post('/signup', async (req, res) => {
         const user = await pool.query( 'INSERT INTO USERS(uname, pwd, slug) VALUES($1,$2,$3) RETURNING *', values) 
         if (!user) throw Error("Something went wrong during signup")
         const token = createToken(slug)
-        res.status(200).json({ username: slug, token })
+        res.status(200).json({ username, token })
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

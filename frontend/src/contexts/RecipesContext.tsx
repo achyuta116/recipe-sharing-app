@@ -12,10 +12,17 @@ type Recipe = {
     cook_time: number,
     prep_time: number,
     instructions: string,
-    date: string
+    image_url: string,
+    date: string,
+    uname: string
 }
 
-export const RecipesContext = createContext<RecipesContextType | null>(null)
+export const RecipesContext = createContext<RecipesContextType>(
+    {
+        recipes: [],
+        setRecipes: () => {}
+    }
+)
 
 
 interface Props {
@@ -26,6 +33,7 @@ export const RecipesContextProvider = ({ children }: Props) => {
 
     const [recipes, setRecipes] = useState<Recipe[]>([])
 
+    console.log('RecipeContext recipes:', recipes)
     return (
         <RecipesContext.Provider value={{ recipes, setRecipes }}>
             { children }

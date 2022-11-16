@@ -21,7 +21,7 @@ const App = () => {
                             element={!user?.token ? <Login/> : <Navigate to='/'/>}/>
                         <Route 
                             path='/recipe/:user/:rname' 
-                            element={user?.token ? <Recipe/> : <Navigate to='/login'/>}/>
+                            element={<Recipe/>}/>
                         <Route 
                             path='/update/:user/:rname' 
                             element={user?.token ? <Update/> : <Navigate to='/login'/>}/>

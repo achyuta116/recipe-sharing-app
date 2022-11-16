@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useRecipesContext } from '../hooks/useRecipesContext'
 
 const Sidebar = () => {
     const [cuisine, setCuisine] = useState('')
@@ -7,6 +8,8 @@ const Sidebar = () => {
     const [maxPrep, setMaxPrep] = useState<'' | number | undefined>()
     const [minCook, setMinCook] = useState<'' | number | undefined>()
     const [maxCook, setMaxCook] = useState<'' | number | undefined>()
+
+    const { setRecipes } = useRecipesContext()
 
 
     const cuisines = ['Indian', 'Italian', 'American', 'Japanese',
@@ -66,7 +69,7 @@ const Sidebar = () => {
             maxPrep?: string
         }  = {}
 
-        if (ingredients.length) filter.ingredients = ingredients.join(',')
+        if (selected.length) filter.ingredients = selected.join(',')
         if (cuisine) filter.cuisine = cuisine
         if (course) filter.course = course
         if (maxCook) filter.maxCook = maxCook.toString()
@@ -76,12 +79,12 @@ const Sidebar = () => {
 
         const query = new URLSearchParams(filter)
 
-        fetch('/api/recipe/recipes' + query)
-            .then(res => {
-
-            }).catch(err => {
-
-        })
+        fetch('/api/recipe/?' + query)
+            .then(res => res.json())
+            .then(data => setRecipes(data.recipes))
+            .catch(err => {
+                console.log(err)
+            })
 
     }
 
@@ -154,8 +157,8 @@ const Sidebar = () => {
                         min="10" 
                     max="500"/>
                 </div>
-                <input className='w-full rounded-lg mx-auto mt-3 text-lg bg-yellow-400 font-semibold p-2' type="submit" onClick={getIngredients}/>
-                <input className='w-full rounded-lg mx-auto my-1 text-lg bg-yellow-400 font-semibold p-2' type="reset" onClick={clearFilter}/>
+                <input className='w-full cursor-pointer rounded-lg mx-auto mt-3 text-lg bg-yellow-400 font-semibold p-2' type="submit" onClick={getIngredients}/>
+                <input className='w-full cursor-pointer rounded-lg mx-auto my-1 text-lg bg-yellow-400 font-semibold p-2' type="reset" onClick={clearFilter}/>
             </form>
 
         </div>
