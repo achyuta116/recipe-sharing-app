@@ -13,7 +13,6 @@ const Recipe = () => {
     const [instructions, setInstructions] = useState('')
     const [ingredients, setIngredients] = useState<{iname: string, amount: number}[]>([])
     const [imageUrl, setImageUrl] = useState('')
-    const [date, setDate] = useState<Date>(new Date())
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -26,7 +25,6 @@ const Recipe = () => {
                 setPrepTime(recipe.prep_time)
                 setInstructions(recipe.instructions)
                 setImageUrl(recipe.image_url)
-                setDate(new Date(recipe.date))
                 setIngredients(ingredients)
             })
     }, [])
@@ -57,7 +55,6 @@ const Recipe = () => {
                 </div>
                 <div className="flex my-2 w-full items-center justify-between font-light text-gray-600">
                     <span>By: {user}</span>
-                    <span>{date.toLocaleDateString()}</span>
                 </div>
                 <img className='h-64 w-full bg-gray-700 object-cover' src={imageUrl} alt="bowl"/>
                 <div className="text-lg font-semibold underline mt-2">Details</div>

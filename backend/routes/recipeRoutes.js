@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 
         const whereString = where.join(' AND ')
 
-        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname, date FROM RECIPE JOIN USERS ON uid=slug ' + (whereString ? ('WHERE ' + whereString) : '')
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname FROM RECIPE JOIN USERS ON uid=slug ' + (whereString ? ('WHERE ' + whereString) : '')
         const { rows } = await pool.query(sqlQuery)
         res.status(200).json({ recipes: rows })
     } catch (error) {
@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
 
 router.get('/recipe', async (req, res) => {
     try {
-        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname, date FROM RECIPE JOIN USERS ON uid=slug'
+        const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname FROM RECIPE JOIN USERS ON uid=slug'
         const { rows } = await pool.query(sqlQuery)
         res.status(200).json({ recipes: rows })
     } catch (error) {
@@ -98,12 +98,12 @@ router.post('/recipe', async (req, res) => {
 
     try {
         const uid = req.slug
-        const sqlQuery = `INSERT INTO RECIPE(rname, uid, cuisine, image_url, course, cook_time, prep_time, instructions, date) 
+        const sqlQuery = `INSERT INTO RECIPE(rname, uid, cuisine, image_url, course, cook_time, prep_time, instructions) 
 VALUES($1, $2, $3, $4,
-$5, $6, $7, $8, $9) RETURNING *`
+$5, $6, $7, $8) RETURNING *`
 
         const { rows } = await pool.query(sqlQuery, 
-            [rname, uid, cuisine, imageUrl, course, cookTime, prepTime, instructions, (new Date().toISOString().slice(0, 10))])
+            [rname, uid, cuisine, imageUrl, course, Number(cookTime), Number(prepTime), instructions])
 
         ingredients.forEach(async ingredient => {
             await pool.query('INSERT INTO RECIPE_USES_INGREDIENT(iname, amount, uid, rname) VALUES($1,$2,$3,$4)', [ingredient.ingredient, ingredient.amount, uid, rname])
@@ -123,9 +123,9 @@ router.put('/recipe', async (req, res) => {
 
     try {
         let sqlQuery = `UPDATE RECIPE SET cuisine=$1, image_url=$2, course=$3, cook_time=$4,
-prep_time=$5, instructions=$6, date=$7 WHERE rname=$8 AND uid=$9 RETURNING *`
+prep_time=$5, instructions=$6 WHERE rname=$7 AND uid=$8 RETURNING *`
         const { rows } = await pool.query(sqlQuery, 
-            [cuisine, imageUrl, course, cookTime, prepTime, instructions, (new Date().toISOString().slice(0, 10)), rname, uid])
+            [cuisine, imageUrl, course, Number(cookTime), Number(prepTime), instructions, rname, uid])
         sqlQuery = 'DELETE FROM RECIPE_USES_INGREDIENT WHERE rname=$1'
         await pool.query(sqlQuery, [rname])
         ingredients.forEach(async ingredient => {
