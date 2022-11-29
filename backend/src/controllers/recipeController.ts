@@ -1,9 +1,10 @@
-const { Pool } = require('pg')
-const slugify = require('slugify')
+import { Pool } from 'pg'
+import slugify from 'slugify'
+import { Request, Response } from 'express'
 
 const pool = new Pool()
 
-module.exports.recipes_ingredients_get = async (_req, res) => {
+module.exports.recipes_ingredients_get = async (_req: Request, res: Response) => {
     try {
         const { rows: ingredients } = await pool.query('SELECT * FROM INGREDIENT')
         res.status(200).json({ ingredients: ingredients.map(el => el.iname) })
@@ -13,7 +14,7 @@ module.exports.recipes_ingredients_get = async (_req, res) => {
     }
 }
 
-module.exports.recipes_filter_recipes_get = async (req, res) => {
+module.exports.recipes_filter_recipes_get = async (req: Request, res: Response) => {
     const query = req.query
     try {
         let where = []
@@ -41,7 +42,7 @@ module.exports.recipes_filter_recipes_get = async (req, res) => {
     }
 }
 
-module.exports.recipes_all_get = async (req, res) => {
+module.exports.recipes_all_get = async (_req: Request, res: Response) => {
     try {
         const sqlQuery = 'SELECT course, cuisine, prep_time, cook_time, uname, uid, instructions, image_url, rname FROM RECIPE JOIN USERS ON uid=slug'
         const { rows } = await pool.query(sqlQuery)
@@ -52,7 +53,7 @@ module.exports.recipes_all_get = async (req, res) => {
     }
 }
 
-module.exports.recipes_single_get = async (req, res) => {
+module.exports.recipes_single_get = async (req: Request, res: Response) => {
     const { user, rname } = req.params
     const uid = slugify(user, {
             remove: /[*+~.()'"!:@]/g,
@@ -74,7 +75,7 @@ module.exports.recipes_single_get = async (req, res) => {
     }
 }
 
-module.exports.recipes_single_delete = async (req, res) => {
+module.exports.recipes_single_delete = async (req: Request, res: Response) => {
     const { rname } = req.body
     const uid = req.slug
     try {
@@ -87,7 +88,7 @@ module.exports.recipes_single_delete = async (req, res) => {
     }
 }
 
-module.exports.recipes_single_post = async (req, res) => {
+module.exports.recipes_single_post = async (req: Request, res: Response) => {
     const { rname, cuisine, course, cookTime, prepTime, instructions, imageUrl, ingredients } = req.body
 
     try {

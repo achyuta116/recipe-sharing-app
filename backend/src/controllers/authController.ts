@@ -1,15 +1,16 @@
-const { Pool } = require('pg')
-const jwt = require('jsonwebtoken')
-const slugify = require('slugify')
+import { Pool } from 'pg'
+import jwt from 'jsonwebtoken'
+import slugify from 'slugify'
+import { Request, Response } from 'express'
 
 const pool = new Pool()
 
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (slug) => {
+const createToken = (slug: string) => {
     return jwt.sign({_id: slug}, process.env.SECRET, {expiresIn: maxAge})
 }
 
-module.exports.user_signup_post = async (req, res) => {
+module.exports.user_signup_post = async (req: Request, res: Response) => {
     const { username, password } = req.body
     // Signup user if doesnt exist, if user exists return error
     try {
@@ -32,7 +33,7 @@ module.exports.user_signup_post = async (req, res) => {
     }
 } 
 
-module.exports.user_login_post = async (req, res) => {
+module.exports.user_login_post = async (req: Request, res: Response) => {
     const { username, password } = req.body
     // Login user if exists, if user doesn't exist return error
     try {

@@ -1,8 +1,9 @@
-const express = require('express')
-const authRoutes = require('./routes/authRoutes')
-const recipeRoutes = require('./routes/recipeRoutes')
-const morgan = require('morgan')
-const dotenv = require('dotenv')
+import express from 'express'
+import authRoutes from './routes/authRoutes'
+import recipeRoutes from './routes/recipeRoutes'
+import morgan from 'morgan'
+import dotenv from 'dotenv'
+
 dotenv.config()
 
 const app = express()
