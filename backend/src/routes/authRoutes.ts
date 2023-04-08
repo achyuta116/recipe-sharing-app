@@ -6,5 +6,5 @@ router.post('/login', authController.user_login_post)
 
 router.post('/signup', authController.user_signup_post)
 
-module.exports = router 
 
+export default router

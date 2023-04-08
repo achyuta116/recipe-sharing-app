@@ -18,4 +18,4 @@ router.post('/recipe', recipeController.recipes_single_post)
 
 router.put('/recipe', recipeController.recipes_single_update)
 
-module.exports = router
+export default router

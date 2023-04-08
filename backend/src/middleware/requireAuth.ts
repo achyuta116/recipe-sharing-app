@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-const { Pool } = require('pg')
+import jwt from 'jsonwebtoken'
+import { Pool } from 'pg'
 const pool = new Pool()
 
 const requireAuth = async (req, res, next) => {
@@ -13,7 +13,7 @@ const requireAuth = async (req, res, next) => {
     const token = authorization.split(' ')[1]
 
     try {
-        const { _id } = jwt.verify(token, process.env.SECRET)
+        const { _id } = jwt.verify(token, process.env.SECRET) as any
 
         const sqlQuery = 'SELECT * FROM USERS WHERE slug=$1'
         const { rows } = await pool.query(sqlQuery, [_id])
