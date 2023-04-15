@@ -14,9 +14,5 @@ jobs:
       - uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           node-version: 16
-      - run: cd frontend
+      - run: cd backend
       - run: yarn install
-      - run: cd ../backend
-      - run: yarn install
-      
-    
