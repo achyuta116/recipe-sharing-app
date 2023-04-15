@@ -10,7 +10,6 @@ const Update = () => {
     const [prepTime, setPrepTime] = useState('')
     const [instructions, setInstructions] = useState('')
     const [imageUrl, setImageUrl] = useState('')
-    const [error, _ ] = useState('')
 
     const cuisines =['Indian', 'Italian', 'American', 'Japanese',
         'Chinese', 'French'] 
@@ -144,7 +143,6 @@ const Update = () => {
                     <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Instructions</label>
                     <textarea className='block w-full' onChange={e => setInstructions(e.target.value)} value={instructions}></textarea>
                     <div onClick={updateRecipe} className='cursor-pointer p-2 text-center bg-yellow-400 font-bold rounded-full mt-3'>Update Recipe</div>
-                    <div className='font-light text-center text-red-500 text-sm'>{ error }</div>
                 </form>
             </div>
         </div>
