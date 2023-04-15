@@ -16,4 +16,5 @@ jobs:
           node-version: 16
       - run: cd frontend
       - run: yarn install
+      - run: yarn build
     
