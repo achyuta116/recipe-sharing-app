@@ -10,6 +10,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.5.2
 
+      - name: Setup node 
+        uses: actions/setup-node@v2.5.2
+        with: 
+          node-version: 16
+
       - name: Setup yarn 
         uses: DerYeger/yarn-setup-action@v1.0.1
         with:
@@ -30,3 +35,4 @@ jobs:
           source: |
             frontend/build/
           target: /var/www/html/
+    
