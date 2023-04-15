@@ -7,12 +7,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: actions/setup-node@v2.5.2
-        with: 
-          node-version: 16
-      - uses: DerYeger/yarn-setup-action@v1.0.1
+      - name: Checkout code
+        uses: actions/checkout@v3.5.2
+
+      - name: Setup yarn 
+        uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           node-version: 16
-      - run: cd backend
-      - run: yarn install
+
+      - name: Build Backend
+        run: |
+          cd backend
+          yarn install
+
+      - name: Deploy Backend to AWS EC2
+        uses: appleboy/scp-action@v0.1.4 
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          source: |
+            backend/dist/
+          target: /var/www/html/api/
