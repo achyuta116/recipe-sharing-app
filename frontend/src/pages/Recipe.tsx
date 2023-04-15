@@ -27,7 +27,7 @@ const Recipe = () => {
                 setImageUrl(recipe.image_url)
                 setIngredients(ingredients)
             })
-    }, [])
+    }, [user, rname])
 
     const deleteRecipe = (e:React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         e.preventDefault()

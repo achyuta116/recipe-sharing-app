@@ -10,7 +10,7 @@ const Update = () => {
     const [prepTime, setPrepTime] = useState('')
     const [instructions, setInstructions] = useState('')
     const [imageUrl, setImageUrl] = useState('')
-    const [error, setError ] = useState('')
+    const [error, _ ] = useState('')
 
     const cuisines =['Indian', 'Italian', 'American', 'Japanese',
         'Chinese', 'French'] 
@@ -38,7 +38,7 @@ const Update = () => {
                 setIngredients(data.ingredients.filter((el: string) => !included.includes(el)))
                 setSelectedIngredients(selected.map((el: {iname: string, amount: number}) => ({ingredient: el.iname, amount: el.amount})))
             })
-    }, [])
+    }, [rname, user])
 
 
     const addIngredient = (e:React.ChangeEvent<HTMLSelectElement>) => {

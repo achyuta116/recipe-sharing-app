@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { useRecipesContext } from '../hooks/useRecipesContext'
 import Card from './Card'
 

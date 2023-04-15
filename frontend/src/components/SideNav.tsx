@@ -1,6 +1,5 @@
-import React from 'react'
 import SideNavRow from './SideNavRow'
-import { HomeIcon, PlusCircleIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { HomeIcon, PlusCircleIcon } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
 
 const SideNav = () => {
