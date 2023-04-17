@@ -28,6 +28,10 @@ jobs:
           yarn install
           yarn build
 
+      - name: Configure SSH key
+        uses: webfactory/ssh-agent@v0.7.0
+        with: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+
       - name: Deploy Frontend to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
