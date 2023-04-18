@@ -92,7 +92,7 @@ const Sidebar = () => {
         <div className='h-[100vh] border border-l-gray-300 w-full p-2'>	
             <div className='text-2xl font-bold text-center m-2'> Recipe SA </div>
             <form>
-                <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1" htmlFor="cuisine">Cuisine</label>
+                <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="cuisine">Cuisine</label>
                 <select value={cuisine} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
                     onChange={e => setCuisine(e.target.value)} 
@@ -100,7 +100,7 @@ const Sidebar = () => {
                     <option value=""></option>
                     {cuisines.map(el => <option key={el} value={el}>{el}</option>)}
                 </select>
-                <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1" htmlFor="course">Course</label>
+                <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="course">Course</label>
                 <select value={course} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
                     onChange={e => setCourse(e.target.value)} 
@@ -108,7 +108,7 @@ const Sidebar = () => {
                     <option value=""></option>
                     {courses.map(el => <option key={el} value={el}>{el}</option>)}
                 </select>
-                <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Ingredient Filter</label>
+                <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Ingredient Filter</label>
                 <select value={ingredientSelected} 
                     className='bg-gray-200 border-none block rounded-full w-full my-1' 
                     onChange={e => addIngredientFilter(e.target.value)}>
@@ -121,7 +121,7 @@ const Sidebar = () => {
                         <div onClick={() => removeIngredientFilter(el)} className='px-2 cursor-pointer text-lg'>&times;</div>
                     </div>
                 )}
-                <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Cook Time</label>
+                <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Cook Time</label>
                 <div>
                     <input value={minCook} 
                         placeholder='(in min)' 
@@ -139,7 +139,7 @@ const Sidebar = () => {
                         min="10"
                     max="500"/>
                 </div>
-                <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Prep Time</label>
+                <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Prep Time</label>
                 <div>
                     <input value={minPrep} 
                         placeholder='(in min)' 
@@ -157,8 +157,8 @@ const Sidebar = () => {
                         min="10" 
                     max="500"/>
                 </div>
-                <input className='w-full cursor-pointer rounded-lg mx-auto mt-3 text-lg bg-blue-400 font-semibold p-2' type="submit" onClick={getIngredients}/>
-                <input className='w-full cursor-pointer rounded-lg mx-auto my-1 text-lg bg-blue-400 font-semibold p-2' type="reset" onClick={clearFilter}/>
+                <input className='w-full cursor-pointer rounded-lg mx-auto mt-3 text-lg bg-yellow-400 font-semibold p-2' type="submit" onClick={getIngredients}/>
+                <input className='w-full cursor-pointer rounded-lg mx-auto my-1 text-lg bg-yellow-400 font-semibold p-2' type="reset" onClick={clearFilter}/>
             </form>
 
         </div>

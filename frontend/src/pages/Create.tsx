@@ -87,11 +87,11 @@ const Create = () => {
             <div className='col-span-7 bg-gray-50 flex flex-col items-center'>
                 <div className="text-4xl font-bold text-center mt-3 p-1">Create Recipe</div>
                 <form className='w-8/12 max-w-full p-5 border rounded-lg drop-shadow my-auto h-[90vh] overflow-y-scroll bg-white'>
-                    <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Recipe Name</label>
+                    <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Recipe Name</label>
                     <input required className='block rounded-lg w-full focus:ring-0' type="text" value={rname} onChange={e => setRname(e.target.value)} placeholder='Idli, Vada'/>
                     <div className='flex space-x-2'>
                         <div className='flex-1'>
-                            <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1" htmlFor="course">Course</label>
+                            <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="course">Course</label>
                             <select value={course} 
                                 className='bg-gray-200 border-none block rounded-full w-full my-1 focus:ring-0' 
                                 onChange={e => setCourse(e.target.value)} 
@@ -101,7 +101,7 @@ const Create = () => {
                             </select>
                         </div>
                         <div className='flex-1'>
-                            <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1" htmlFor="cuisine">Cuisine</label>
+                            <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1" htmlFor="cuisine">Cuisine</label>
                             <select value={cuisine} 
                                 className='bg-gray-200 border-none block rounded-full w-full my-1 focus:ring-0' 
                                 onChange={e => setCuisine(e.target.value)} 
@@ -111,11 +111,11 @@ const Create = () => {
                             </select>
                         </div>
                     </div>
-                    <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Recipe Image Url</label>
+                    <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Recipe Image Url</label>
                     <input required className='block w-full rounded-lg focus:ring-0'
                         type="text" value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
                     <div className="flex items-center mx-1 mt-2 space-x-2 w-full">
-                        <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400">Ingredients</label>
+                        <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400">Ingredients</label>
                         <select value={ingredientSelected} className='bg-gray-200 border-none rounded-full focus:ring-0'
                             onChange={addIngredient}>
                             <option value=""></option>
@@ -134,17 +134,17 @@ const Create = () => {
                     </div>
                     <div className='flex space-x-2'>
                         <div className='flex-1'>
-                            <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Cook Time</label>
+                            <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Cook Time</label>
                             <input required className='block w-full rounded-lg focus:ring-0' type="number" value={cookTime} min='10' max='500' onChange={e => setCookTime(e.target.value)}/>
                         </div>
                         <div className='flex-1'>
-                            <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Prep Time</label>
+                            <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Prep Time</label>
                             <input required className='block w-full rounded-lg focus:ring-0' type="number" value={prepTime} min='10' max='500' onChange={e => setPrepTime(e.target.value)}/>
                         </div>					
                     </div>
-                    <label className="inline-block text-lg font-semibold border-b-2 border-b-blue-400 m-1">Instructions</label>
+                    <label className="inline-block text-lg font-semibold border-b-2 border-b-yellow-400 m-1">Instructions</label>
                     <textarea className='block w-full' onChange={e => setInstructions(e.target.value)} value={instructions}></textarea>
-                    <div onClick={createRecipe} className='cursor-pointer p-2 text-center bg-blue-400 font-bold rounded-full mt-3'>Create Recipe</div>
+                    <div onClick={createRecipe} className='cursor-pointer p-2 text-center bg-yellow-400 font-bold rounded-full mt-3'>Create Recipe</div>
                     <div className='font-light text-center text-red-500 text-sm'>{ error }</div>
                 </form>
             </div>

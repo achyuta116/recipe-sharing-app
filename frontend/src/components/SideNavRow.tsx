@@ -8,7 +8,7 @@ interface Props {
 
 const SideNavRow = ({Icon, title} : Props) => {
     return (
-        <div className='space-x-6 items-center rounded-full w-full hover:bg-blue-50 hover:text-blue-500 p-2 flex justify-between align center cursor-pointer'>
+        <div className='space-x-6 items-center rounded-full w-full hover:bg-yellow-50 hover:text-yellow-500 p-2 flex justify-between align center cursor-pointer'>
             <Icon className='h-6 w-6'/>
             <div className='inline text-base font-light lg:text-xl'>{ title }</div>
         </div>

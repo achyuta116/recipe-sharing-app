@@ -39,10 +39,10 @@ const Login = () => {
                     <div className="text-6xl font-extrabold text-right">App</div>
                     <div className='text-right mt-3 w-96'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus libero exercitationem architecto facere perferendis earum iste quod voluptatibus nihil? Voluptatem corrupti quae id obcaecati aut minima blanditiis laborum voluptate laudantium.</div>
                 </div>
-                <div className='flex flex-col col-span-1 bg-blue-400 h-[75vh]'>
-                        <div className="grid grid-cols-2 border-b-2 border-b-white bg-blue-500">
-                            <div className={'text-xl py-2 w-full text-center cursor-pointer' + (showSignup? ' bg-blue-400' : '')} onClick={() => setShowSignup(true)}>Sign Up</div>
-                            <div className={'text-xl py-2 w-full text-center cursor-pointer' + (!showSignup? ' bg-blue-400' : '')} onClick={() => setShowSignup(false)}>Login</div>
+                <div className='flex flex-col col-span-1 bg-yellow-400 h-[75vh]'>
+                        <div className="grid grid-cols-2 border-b-2 border-b-white bg-yellow-500">
+                            <div className={'text-xl py-2 w-full text-center cursor-pointer' + (showSignup? ' bg-yellow-400' : '')} onClick={() => setShowSignup(true)}>Sign Up</div>
+                            <div className={'text-xl py-2 w-full text-center cursor-pointer' + (!showSignup? ' bg-yellow-400' : '')} onClick={() => setShowSignup(false)}>Login</div>
                         </div>
                     {!showSignup && 
                         <div className='grid place-items-center flex-1'>
