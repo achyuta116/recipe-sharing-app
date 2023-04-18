@@ -21,12 +21,20 @@ jobs:
       - name: Build Backend
         run: |
           cd backend
+          cp package.json ..
           yarn install
 
       - name: Deploy Backend to AWS EC2
         uses: appleboy/scp-action@v0.1.4 
-        run: |
-          cd backend
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          source: api
+          target: /var/www/html/
+
+      - name: Deploy Backend to AWS EC2
+        uses: appleboy/scp-action@v0.1.4 
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
