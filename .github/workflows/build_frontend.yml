@@ -4,6 +4,7 @@ on:
       - main
     paths:
       - frontend
+      - .github/workflows/build_frontend.yml
       
 jobs:
   build:
@@ -34,5 +35,5 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-          source: "frontend/build/static,frontend/build/index.html,frontend/build/manifest.json,frontend/build/robots.txt,frontend/build/favicon.ico,frontend/build/asset-manifest.json"
+          source: frontend/build/*
           target: /var/www/html
