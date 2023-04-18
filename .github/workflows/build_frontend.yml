@@ -34,12 +34,9 @@ jobs:
 
       - name: Deploy Frontend to AWS EC2
         uses: appleboy/scp-action@v0.1.4
-        env:
-          HOST: ${{ secrets.AWS_EC2_HOST }}
-          USERNAME: ${{ secrets.AWS_EC2_USERNAME }}
-          KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-          PORT: 22
         with:
-          source: |
-            frontend/build/*
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          source: "frontend/build/*"
           target: /var/www/html
