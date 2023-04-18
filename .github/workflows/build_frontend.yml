@@ -3,7 +3,7 @@ on:
     branches:
       - main
     paths:
-      - frontend
+      - 'frontend/**/*'
       - .github/workflows/build_frontend.yml
       
 jobs:
