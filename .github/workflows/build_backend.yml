@@ -33,5 +33,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           source: |
-            backend/dist/
+            backend/dist/*
           target: /var/www/html/api/
