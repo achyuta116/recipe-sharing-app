@@ -30,4 +30,4 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           source: api
-          target: /var/www/html/api/
+          target: /var/www/html/

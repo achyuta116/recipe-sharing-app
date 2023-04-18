@@ -38,4 +38,4 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           source: html
-          target: /var/www/html
+          target: /var/www/
