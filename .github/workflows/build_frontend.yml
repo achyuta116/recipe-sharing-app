@@ -38,5 +38,5 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-          source: frontend/build
+          source: "frontend/build/static,frontend/build/index.html,frontend/build/manifest.json,frontend/build/robots.txt,frontend/build/favicon.ico,frontend/build/asset-manifest.json"
           target: /var/www/html
