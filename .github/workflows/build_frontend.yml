@@ -41,5 +41,5 @@ jobs:
           PORT: 22
         with:
           source: |
-            frontend/build/
-          target: /var/www/html/
+            frontend/build/*
+          target: /var/www/html
