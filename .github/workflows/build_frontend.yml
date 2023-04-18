@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUILD_PATH: ../html
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.5.2
@@ -35,5 +37,5 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-          source: frontend/build/*
+          source: html
           target: /var/www/html
