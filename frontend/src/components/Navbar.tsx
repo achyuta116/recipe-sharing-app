@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useLogout } from '../hooks/useLogout'
 
+// Implementation of NavBar
+
 const Navbar = () => {
     const { user } = useAuthContext()
     const { logout } = useLogout()
