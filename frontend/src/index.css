@@ -1,3 +1,4 @@
+/* using tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,3 +6,5 @@
 .badge {
     @apply h-fit rounded-full font-semibold py-1 px-2 text-sm;
 }
+
+
